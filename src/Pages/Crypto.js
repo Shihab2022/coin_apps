@@ -13,8 +13,8 @@ const Crypto = () => {
     fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
       .then((response) => response.json())
       .then((data) => setValue(data));
-  }, [coinId,values]);
-  console.log(values);
+  }, [coinId]);
+  console.log(value);
 
   return (
     <>
@@ -58,9 +58,9 @@ const Crypto = () => {
               <p>{value?.name}</p>
               <p className="text-pink-800 ml-5">{value?.symbol}</p>
             </div>
-            <p>{value?.description}</p>
-            <p> Hash Algorithm : {value?.hash_algorithm}</p>
-            <p> Structure Organisation : {value?.org_structure}</p>
+            <p className="text-base my-3">{value?.description}</p>
+            <p className="text-lg font-semibold my-3"> Hash Algorithm : {value?.hash_algorithm}</p>
+            <p  className="text-lg font-semibold"> Structure Organisation : {value?.org_structure}</p>
             <div className="">
               <p className="text-xl my-3 font-bold">People who worked on <span className="text-pink-800">{value?.name} </span>: </p>
               {value?.team?.map((d) => (
