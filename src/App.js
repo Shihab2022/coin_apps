@@ -5,6 +5,7 @@ function App() {
   return (
     <div >
      <Crypto/>
+     {/* <Loading/> */}
     </div>
   );
 }

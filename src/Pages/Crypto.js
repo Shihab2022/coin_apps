@@ -8,23 +8,32 @@ import {
   FaGlobe,
   FaYoutube,
 } from "react-icons/fa";
+import Loading from "./Loading";
 
 const Crypto = () => {
   const [values, setValues] = useState([]);
   const [coinId, setCoinId] = useState("btc-bitcoin");
   const [value, setValue] = useState([]);
   const [count, setCount] = useState(20);
+  const [details, setDetails] = useState(false);
+  const [loader,setLoader]=useState(false)
   useEffect(() => {
+    setLoader(true)
     fetch("https://api.coinpaprika.com/v1/coins/")
       .then((response) => response.json())
-      .then((data) => setValues(data));
+      .then((data) => {
+        setLoader(false)
+        setValues(data)});
 
     fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
       .then((response) => response.json())
       .then((data) => setValue(data));
   }, [coinId]);
-  console.log(value.links_extended);
 
+// if(loader){
+//   return  <Loading></Loading>
+// }
+console.log(values)
   return (
     <>
       <div className="grid grid-cols-12 ">
@@ -115,7 +124,10 @@ const Crypto = () => {
                 </div>
                 <div className="text-xl font-bold mt-3">
                   <span>Read More About : </span>
-                  <button className="text-xl font-semibold text-pink-900">
+                  <button
+                    onClick={() => setDetails(!details)}
+                    className="text-2xl font-semibold underline hover:text-amber-500 duration-300 text-blue-800"
+                  >
                     {value?.name}
                   </button>
                 </div>
@@ -123,96 +135,104 @@ const Crypto = () => {
               <img src={value?.logo} className="pr-20" alt="" />
             </div>
             {/* details a coin */}
-            <>
-            <hr className="h-1 my-5 bg-red-500 w-full" />
-            <div>
-              <p className="text-xl  font-semibold">
-                Here some social link about {value?.name}
-              </p>
-              <div className="flex">
-                {/* for youtube */}
-                <div className="flex ">
-                  {value?.links?.youtube?.map((d) => (
-                    <a className="block" href={d} target="_blank">
-                      <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
-                        {" "}
-                        <FaYoutube className="text-4xl text-white" />{" "}
-                      </div>
-                    </a>
-                  ))}
-                </div>
-                {/* for website */}
-                <div className="flex ">
-                  {value?.links?.website?.map((d) => (
-                    <a className="block" href={d} target="_blank">
-                      <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
-                        {" "}
-                        <FaGlobe className="text-4xl text-white" />{" "}
-                      </div>
-                    </a>
-                  ))}
-                </div>
-                {/* for facebook */}
-                <div className="flex ">
-                  {value?.links?.facebook?.map((d) => (
-                    <a className="block" href={d} target="_blank">
-                      <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
-                        {" "}
-                        <FaFacebook className="text-4xl text-white" />{" "}
-                      </div>
-                    </a>
-                  ))}
-                </div>
-                {/* for github source code */}
-                <div className="flex ">
-                  {value?.links?.source_code?.map((d) => (
-                    <a className="block" href={d} target="_blank">
-                      <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
-                        {" "}
-                        <FaGithub className="text-4xl text-white" />{" "}
-                      </div>
-                    </a>
-                  ))}
-                </div>
+            {details && (
+              <>
+                <hr className="h-1 my-5 bg-red-500 w-full" />
+                <div>
+                  <p className="text-xl  font-semibold">
+                    Here some social link about <button></button>
+                    {value?.name}
+                  </p>
+                  <div className="flex">
+                    {/* for youtube */}
+                    <div className="flex ">
+                      {value?.links?.youtube?.map((d) => (
+                        <a className="block" href={d} target="_blank">
+                          <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
+                            {" "}
+                            <FaYoutube className="text-4xl text-white" />{" "}
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                    {/* for website */}
+                    <div className="flex ">
+                      {value?.links?.website?.map((d) => (
+                        <a className="block" href={d} target="_blank">
+                          <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
+                            {" "}
+                            <FaGlobe className="text-4xl text-white" />{" "}
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                    {/* for facebook */}
+                    <div className="flex ">
+                      {value?.links?.facebook?.map((d) => (
+                        <a className="block" href={d} target="_blank">
+                          <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
+                            {" "}
+                            <FaFacebook className="text-4xl text-white" />{" "}
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                    {/* for github source code */}
+                    <div className="flex ">
+                      {value?.links?.source_code?.map((d) => (
+                        <a className="block" href={d} target="_blank">
+                          <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
+                            {" "}
+                            <FaGithub className="text-4xl text-white" />{" "}
+                          </div>
+                        </a>
+                      ))}
+                    </div>
 
-                {/* for reddit  */}
-                <div className="flex flex-wrap">
-                  {value?.links?.reddit?.map((d) => (
-                    <a className="block" href={d} target="_blank">
-                      <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
-                        {" "}
-                        <FaRedditAlien className="text-4xl text-white" />{" "}
-                      </div>
-                    </a>
-                  ))}
+                    {/* for reddit  */}
+                    <div className="flex flex-wrap">
+                      {value?.links?.reddit?.map((d) => (
+                        <a className="block" href={d} target="_blank">
+                          <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
+                            {" "}
+                            <FaRedditAlien className="text-4xl text-white" />{" "}
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                    {/* for explorer icon link */}
+                    <div className="flex flex-wrap">
+                      {value?.links?.explorer?.slice(0, 4).map((d) => (
+                        <a className="block" href={d} target="_blank">
+                          <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
+                            {" "}
+                            <FaInternetExplorer className="text-4xl text-white" />{" "}
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                {/* for explorer icon link */}
-                <div className="flex flex-wrap">
-                  {value?.links?.explorer?.slice(0, 4).map((d) => (
-                    <a className="block" href={d} target="_blank">
-                      <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
-                        {" "}
-                        <FaInternetExplorer className="text-4xl text-white" />{" "}
+                <div>
+                  <h1 className="text-xl my-3">
+                    More Details about {value?.name}
+                  </h1>
+                  <div className="flex flex-wrap">
+                    {value.links_extended?.map((d) => (
+                      <div className="bg-gradient-to-r from-amber-300 to-green-800 shadow-2xl rounded-lg m-3 px-5 py-3 ">
+                        <a
+                          href={d.url}
+                          target="_blank"
+                          className="uppercase text-lg text-transparent  bg-clip-text bg-gradient-to-r from-purple-600 to-pink-900"
+                        >
+                          {d.type}{" "}
+                        </a>
                       </div>
-                    </a>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div>
-<h1 className="text-xl my-3">More Details about {value?.name}</h1>
-<div className="flex flex-wrap" >
-{
-    value.links_extended?.map(d=> <div className="bg-gradient-to-r from-amber-300 to-green-800 shadow-2xl rounded-lg m-3 px-5 py-3 ">
-    <a href={d.url} target="_blank" className='uppercase text-lg text-transparent  bg-clip-text bg-gradient-to-r from-purple-600 to-pink-900'>{d.type} </a>
-    </div>)
-}
-</div>
-
-            </div>
-            </>
-          
-
+              </>
+            )}
           </div>
         </div>
       </div>
