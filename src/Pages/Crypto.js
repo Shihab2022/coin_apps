@@ -4,6 +4,7 @@ const Crypto = () => {
   const [values, setValues] = useState([]);
   const [coinId, setCoinId] = useState("btc-bitcoin");
   const [value, setValue] = useState([]);
+  const [count,setCount]=useState(20)
   useEffect(() => {
     fetch("https://api.coinpaprika.com/v1/coins/")
       .then((response) => response.json())
@@ -34,7 +35,7 @@ const Crypto = () => {
             <input type="submit" value="" />
           </form>
         </div>
-          {values?.slice(0, 20)?.map((d) => (
+          {values?.slice((count-20), count)?.map((d) => (
             <>
               <div onClick={()=>setCoinId(d?.id)} className="flex duration-500 hover:bg-red-200 cursor-pointer text-lg  p-3 justify-between overflow-hidden">
                 <p>{d?.rank}</p>
@@ -43,7 +44,12 @@ const Crypto = () => {
               </div>
             </>
           ))}
-         
+         <div className="flex justify-between mt-5">
+            {
+                count>=40 ? <button onClick={()=>setCount(count-20)} className="bg-amber-600 px-2 py-2 rounded-lg text-lg">Previous</button> : <button disabled className="bg-zinc-300 px-2 py-2 rounded-lg text-lg">Previous</button>
+            } 
+            <button onClick={()=>setCount(count+20)} className="bg-green-500 px-5 py-2 rounded-lg text-lg">Next</button>
+         </div>
         </div>
         {/* details list */}
         <div className="col-start-3 col-end-13 px-10 py-14 space-x-2 bg-amber-100 ">
