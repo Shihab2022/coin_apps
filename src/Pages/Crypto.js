@@ -23,7 +23,7 @@ const Crypto = () => {
       .then((response) => response.json())
       .then((data) => setValue(data));
   }, [coinId]);
-  console.log(value?.links?.facebook);
+  console.log(value.links_extended);
 
   return (
     <>
@@ -83,45 +83,52 @@ const Crypto = () => {
         {/* details list */}
         <div className="col-start-3 col-end-13 pl-10 py-14 space-x-2 bg-amber-100 ">
           <div>
-            <div className="flex justify-start text-xl font-bold">
-              <p>{value?.name}</p>
-              <p className="text-pink-800 ml-5">{value?.symbol}</p>
-            </div>
-            <p className="text-base my-3">{value?.description}</p>
-            <p className="text-lg font-semibold my-3">
-              {" "}
-              Hash Algorithm : {value?.hash_algorithm}
-            </p>
-            <p className="text-lg font-semibold">
-              {" "}
-              Structure Organisation : {value?.org_structure}
-            </p>
-            <div className="">
-              <p className="text-xl my-3 font-bold">
-                People who worked on{" "}
-                <span className="text-pink-800">{value?.name} </span>:{" "}
-              </p>
-              {value?.team?.map((d) => (
-                <div className="text-lg flex items-center ml-5 mt-2">
-                  <FaUserTie />
-                  <p className="ml-3">
-                    {d?.name}{" "}
-                    <span className="text-sm ml-1">({d?.position})</span>
-                  </p>
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="flex justify-start text-xl font-bold">
+                  <p>{value?.name}</p>
+                  <p className="text-pink-800 ml-5">{value?.symbol}</p>
                 </div>
-              ))}
-            </div>
-            {/* <a className="block" href={value?.links_extended[0]?.url} target="_blank">Official Website</a> */}
-            <div className="text-xl font-bold mt-3">
-              <span>Read More About : </span>
-              <button className="text-xl font-semibold text-pink-900">
-                {value?.name}
-              </button>
+                <p className="text-base my-3">{value?.description}</p>
+                <p className="text-lg font-semibold my-3">
+                  {" "}
+                  Hash Algorithm : {value?.hash_algorithm}
+                </p>
+                <p className="text-lg font-semibold">
+                  {" "}
+                  Structure Organisation : {value?.org_structure}
+                </p>
+                <div className="">
+                  <p className="text-xl my-3 font-bold">
+                    People who worked on{" "}
+                    <span className="text-pink-800">{value?.name} </span>:{" "}
+                  </p>
+                  {value?.team?.map((d) => (
+                    <div className="text-lg flex items-center ml-5 mt-2">
+                      <FaUserTie />
+                      <p className="ml-3">
+                        {d?.name}{" "}
+                        <span className="text-sm ml-1">({d?.position})</span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <div className="text-xl font-bold mt-3">
+                  <span>Read More About : </span>
+                  <button className="text-xl font-semibold text-pink-900">
+                    {value?.name}
+                  </button>
+                </div>
+              </div>
+              <img src={value?.logo} className="pr-20" alt="" />
             </div>
             {/* details a coin */}
+            <>
             <hr className="h-1 my-5 bg-red-500 w-full" />
             <div>
-              <p>Here some social Link {value?.name}</p>
+              <p className="text-xl  font-semibold">
+                Here some social link about {value?.name}
+              </p>
               <div className="flex">
                 {/* for youtube */}
                 <div className="flex ">
@@ -156,8 +163,8 @@ const Crypto = () => {
                     </a>
                   ))}
                 </div>
-   {/* for github source code */}
-   <div className="flex ">
+                {/* for github source code */}
+                <div className="flex ">
                   {value?.links?.source_code?.map((d) => (
                     <a className="block" href={d} target="_blank">
                       <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
@@ -167,7 +174,7 @@ const Crypto = () => {
                     </a>
                   ))}
                 </div>
-                
+
                 {/* for reddit  */}
                 <div className="flex flex-wrap">
                   {value?.links?.reddit?.map((d) => (
@@ -181,7 +188,7 @@ const Crypto = () => {
                 </div>
                 {/* for explorer icon link */}
                 <div className="flex flex-wrap">
-                  {value?.links?.explorer?.slice(0,4).map((d) => (
+                  {value?.links?.explorer?.slice(0, 4).map((d) => (
                     <a className="block" href={d} target="_blank">
                       <div className="bg-gradient-to-r from-cyan-500 to-blue-800  py-4 px-10  rounded-lg  my-3 ml-3 ">
                         {" "}
@@ -190,10 +197,22 @@ const Crypto = () => {
                     </a>
                   ))}
                 </div>
-
-             
               </div>
             </div>
+            <div>
+<h1 className="text-xl my-3">More Details about {value?.name}</h1>
+<div className="flex flex-wrap" >
+{
+    value.links_extended?.map(d=> <div className="bg-gradient-to-r from-amber-300 to-green-800 shadow-2xl rounded-lg m-3 px-5 py-3 ">
+    <a href={d.url} target="_blank" className='uppercase text-lg text-transparent  bg-clip-text bg-gradient-to-r from-purple-600 to-pink-900'>{d.type} </a>
+    </div>)
+}
+</div>
+
+            </div>
+            </>
+          
+
           </div>
         </div>
       </div>
