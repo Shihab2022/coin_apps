@@ -32,38 +32,38 @@ const Crypto = () => {
             />
             <input type="submit" value="" />
           </form>
-          {values.slice(0, 20).map((d) => (
+          {values?.slice(0, 20)?.map((d) => (
             <>
               <div className="flex text-lg my-5 justify-between overflow-hidden">
-                <p>{d.rank}</p>
-                <p className="mx-3">{d.name}</p>
-                <p className=" text-pink-800">{d.symbol}</p>
+                <p>{d?.rank}</p>
+                <p className="mx-3">{d?.name}</p>
+                <p className=" text-pink-800">{d?.symbol}</p>
               </div>
             </>
           ))}
         </div>
         {/* details list */}
-        <div className="col-start-3 col-end-13 bg-amber-500 ">
+        <div className="col-start-3 col-end-13 px-10 py-14 space-x-2 bg-amber-500 ">
           <div>
             <div className="flex justify-start text-xl font-bold">
-              <p>{value.name}</p>
-              <p className="text-pink-800 ml-5">{value.symbol}</p>
+              <p>{value?.name}</p>
+              <p className="text-pink-800 ml-5">{value?.symbol}</p>
             </div>
-            <p>{value.description}</p>
-            <p> Hash Algorithm : {value.hash_algorithm}</p>
-            <p> Invented In : {value.started_at}</p>
+            <p>{value?.description}</p>
+            <p> Hash Algorithm : {value?.hash_algorithm}</p>
+            <p> Structure Organisation : {value?.org_structure}</p>
             <div>
-              <p>People who worked on {value.name}</p>
+              <p>People who worked on {value?.name}</p>
               {value?.team?.map((d) => (
                 <p>
-                  {d.name} <span className="text-sm ml-3">({d.position})</span>
+                  {d?.name} <span className="text-sm ml-3">({d?.position})</span>
                 </p>
               ))}
             </div>
-            <a className="block" href={value?.links_extended[0]?.url}>Official Website</a>
+            {/* <a className="block" href={value?.links_extended[0]?.url}>Official Website</a> */}
             <div>
-                <span>Read More About </span>
-            <button>{value.name}</button>
+                <span>Read More About : </span>
+            <button className="text-xl font-semibold text-pink-900">{value?.name}</button>
             </div>
            
           </div>
