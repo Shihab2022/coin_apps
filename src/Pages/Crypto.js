@@ -7,6 +7,7 @@ import {
   FaGithub,
   FaGlobe,
   FaYoutube,
+  FaSearch
 } from "react-icons/fa";
 import Loading from "./Loading";
 
@@ -16,6 +17,8 @@ const Crypto = () => {
   const [value, setValue] = useState([]);
   const [count, setCount] = useState(20);
   const [details, setDetails] = useState(false);
+  const [input,setInput]=useState(null)
+  const [searchValue,setSearchValue]=useState([])
   const [loader,setLoader]=useState(false)
   useEffect(() => {
     setLoader(true)
@@ -30,12 +33,19 @@ const Crypto = () => {
       .then((data) => setValue(data));
   }, [coinId]);
 
+  const searchCoin=(e)=>{
+    const remaining=values?.filter(v=>v?.name.toLowerCase().includes(input.toLowerCase()))
+    console.log(remaining)
+    setSearchValue(remaining)
+    e.preventDefault();
+  }
 // if(loader){
 //   return  <Loading></Loading>
 // }
-console.log(values)
+console.log(input)
   return (
     <>
+    <div className=" relative">
       <div className="grid grid-cols-12 ">
         {/* crypto List */}
         <div className="col-start-1 col-end-3 py-10 px-2 font-mono  bg-red-100 ">
@@ -43,14 +53,18 @@ console.log(values)
             <h1 className="text-2xl font-bold uppercase py-2 font-serif text-amber-500">
               Crypto List
             </h1>
-            <form>
+            <form onSubmit={searchCoin} className="relative">
               <input
                 type="text"
-                className="border-2 border-amber-500 bg-white rounded-md"
+                onChange={(e)=>setInput(e.target.value)}
+                className="border-2 w-full border-amber-500 px-3 py-1 bg-white rounded-lg"
                 name=""
                 id=""
               />
-              <input type="submit" value="" />
+              {
+                input && <button className=" bottom-2 right-3 absolute text-lg text-amber-700"><FaSearch/></button>
+              }
+             
             </form>
           </div>
           {values?.slice(count - 20, count)?.map((d) => (
@@ -235,6 +249,13 @@ console.log(values)
             )}
           </div>
         </div>
+      </div>
+      {/* for search result */}
+      <div className="w-full grid grid-cols-12 absolute top-32 left-0 z-10">
+        <div className="col-start-1 col-end-3 bg-amber-300 w-full h-screen">
+<h2 className="text-5xl ">his is ok</h2>
+        </div>
+      </div>
       </div>
     </>
   );
