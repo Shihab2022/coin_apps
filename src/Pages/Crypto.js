@@ -88,7 +88,7 @@ const Crypto = () => {
               {count >= 40 ? (
                 <button
                   onClick={() => setCount(count - 20)}
-                  className="bg-amber-600 px-2 py-2 rounded-lg text-lg"
+                  className="bg-gradient-to-r from-lime-500 to-teal-500 text-white px-2 py-2 rounded-lg text-lg"
                 >
                   Previous
                 </button>
@@ -102,7 +102,7 @@ const Crypto = () => {
               )}
               <button
                 onClick={() => setCount(count + 20)}
-                className="bg-green-500 px-5 py-2 rounded-lg text-lg"
+                className="bg-gradient-to-r from-purple-500 to-rose-500 text-white px-5 py-2  rounded-lg text-lg"
               >
                 Next
               </button>
