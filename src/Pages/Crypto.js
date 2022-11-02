@@ -9,6 +9,7 @@ import {
   FaYoutube,
   FaSearch,
 } from "react-icons/fa";
+import Another from "./Another";
 import Loading from "./Loading";
 
 const Crypto = () => {
@@ -20,19 +21,26 @@ const Crypto = () => {
   const [input, setInput] = useState(null);
   const [searchValue, setSearchValue] = useState([]);
   const [loader, setLoader] = useState(false);
+
   useEffect(() => {
     setLoader(true);
+    
     fetch("https://api.coinpaprika.com/v1/coins/")
       .then((response) => response.json())
       .then((data) => {
         setLoader(false);
         setValues(data);
       });
+  }, []);
+
+
+  useEffect(()=>{
 
     fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      .then((response) => response.json())
-      .then((data) => setValue(data));
-  }, [coinId]);
+    .then((response) => response.json())
+    .then((data) => setValue(data));
+  },[coinId])
+
 
   const searchCoin = (e) => {
     const remaining = values?.filter((v) =>
@@ -42,10 +50,12 @@ const Crypto = () => {
     e.target.reset();
     e.preventDefault();
   };
-  // if(loader){
-  //   return  <Loading></Loading>
-  // }
-  console.log(input);
+const cryptoDetails={
+  value:value,
+  setDetails:setDetails,
+    details:details
+}
+  console.log(value);
   return (
     <>
       <div className=" relative">
@@ -72,11 +82,14 @@ const Crypto = () => {
                 )}
               </form>
             </div>
-            {values?.slice(count - 20, count)?.map((d) => (
+
+
+            {values?.slice(count - 20, count)?.map((d ,index) => (
               <>
                 <div
                   onClick={() => setCoinId(d?.id)}
                   className="flex duration-300 hover:bg-red-200 hover:rounded-md cursor-pointer text-lg  p-3 justify-between overflow-hidden"
+                  key={index}
                 >
                   <p>{d?.rank}</p>
                   <p className="mx-3 w-full overflow-hidden">{d?.name}</p>
@@ -84,7 +97,7 @@ const Crypto = () => {
                 </div>
               </>
             ))}
-            <div className="flex justify-between mt-5">
+            <div className="flex justify-between mt-5" >
               {count >= 40 ? (
                 <button
                   onClick={() => setCount(count - 20)}
@@ -111,48 +124,7 @@ const Crypto = () => {
           {/* details list */}
           <div className="col-start-3 col-end-13 pl-10 py-14 space-x-2 bg-amber-100 ">
             <div>
-              <div className="flex justify-between items-center">
-                <div>
-                  <div className="flex justify-start text-xl font-bold">
-                    <p>{value?.name}</p>
-                    <p className="text-pink-800 ml-5">{value?.symbol}</p>
-                  </div>
-                  <p className="text-base my-3">{value?.description}</p>
-                  <p className="text-lg font-semibold my-3">
-                    {" "}
-                    Hash Algorithm : {value?.hash_algorithm}
-                  </p>
-                  <p className="text-lg font-semibold">
-                    {" "}
-                    Structure Organisation : {value?.org_structure}
-                  </p>
-                  <div className="">
-                    <p className="text-xl my-3 font-bold">
-                      People who worked on{" "}
-                      <span className="text-pink-800">{value?.name} </span>:{" "}
-                    </p>
-                    {value?.team?.map((d) => (
-                      <div className="text-lg flex items-center ml-5 mt-2">
-                        <FaUserTie />
-                        <p className="ml-3">
-                          {d?.name}{" "}
-                          <span className="text-sm ml-1">({d?.position})</span>
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="text-xl font-bold mt-3">
-                    <span>Read More About : </span>
-                    <button
-                      onClick={() => setDetails(!details)}
-                      className="text-2xl font-semibold underline hover:text-amber-500 duration-300 text-blue-800"
-                    >
-                      {value?.name}
-                    </button>
-                  </div>
-                </div>
-                <img src={value?.logo} className="pr-20" alt="" />
-              </div>
+              <Another  cryptoDetails={cryptoDetails}/>
               {/* details a coin */}
               {details && (
                 <>
